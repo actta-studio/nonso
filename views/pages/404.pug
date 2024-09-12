@@ -1,0 +1,12 @@
+extends ../base.pug 
+
+block variables
+	- var template = '404'
+
+block content
+	div(class="page page--notFound") 
+		h1 
+			span You seem to be lost, 
+			span but we have a 
+			a(href="/" class="underline") map.
+

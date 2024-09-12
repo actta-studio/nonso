@@ -1,0 +1,96 @@
+html {
+  scroll-behavior: smooth;
+  font-size: calc((100vw / 1920) * 10);
+  padding: 0;
+  margin: 0;
+
+  @include media("<=tablet") {
+    font-size: calc((100vw / 768) * 10);
+  }
+
+  @include media("<=phone") {
+    font-size: calc((100vw / 430) * 10);
+  }
+}
+
+body {
+  overscroll-behavior-y: none;
+  padding: 0;
+  margin: 0;
+  background-color: $color-white;
+  color: $color-grey;
+  font-family: "Satoshi", sans-serif;
+  font-weight: 500;
+}
+
+@supports (-webkit-font-smoothing: antialiased) or
+  (-moz-osx-font-smoothing: grayscale) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+#content {
+}
+
+img {
+  max-width: 100%;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  outline: none;
+}
+
+[data-state="disabled"] {
+  cursor: not-allowed;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  color: inherit;
+}
+
+// p::selection,
+// span::selection,
+// h1::selection,
+// h2::selection,
+// h3::selection,
+// h4::selection,
+// h5::selection,
+// h6::selection,
+// a::selection,
+// label::selection,
+// img::selection {
+// }
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

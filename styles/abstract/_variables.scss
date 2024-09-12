@@ -1,0 +1,30 @@
+:root {
+  --layout-spacing: 3rem;
+}
+
+@include media("<=tablet") {
+  :root {
+    --layout-spacing: 2rem;
+  }
+}
+
+@include media("<=phone") {
+  :root {
+    --layout-spacing: 1rem;
+  }
+}
+
+$color-white: #f5f5f5;
+$color-grey: #3f3f3f;
+$color-green: #16cb2a;
+
+$z-indexes: (
+  "dev",
+  "transition",
+  "preloader",
+  "navigation",
+  "footer",
+  "content",
+  "logo",
+  "unsupported"
+);

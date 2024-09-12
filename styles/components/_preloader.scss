@@ -1,0 +1,26 @@
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  padding: var(--layout-spacing);
+
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+
+  overflow: hidden;
+
+  z-index: z("preloader");
+}
+
+.preloader .preloader__progress {
+  display: inline-block;
+  background-color: $color-green;
+  color: $color-grey;
+
+  padding: 0.25rem 0.5rem;
+
+  @extend %description-18;
+}

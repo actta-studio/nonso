@@ -1,0 +1,50 @@
+{
+  "name": "vite-prismic",
+  "version": "1.0.0",
+  "description": "Starter for prismic+node+vite+pug",
+  "main": "app.js",
+  "scripts": {
+    "dev": "concurrently --kill-others \"npm run backend:dev\" \"npm run watch\"",
+    "backend:dev": "nodemon app.js",
+    "frontend:dev": "vite",
+    "frontend:build": "vite build",
+    "watch": "nodemon -e js,ts,html,scss,css --ignore dist --exec 'npm run frontend:build'",
+    "browser-sync": "browser-sync start --proxy 'localhost:3001' --files 'dist/**/*'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.20.2",
+    "concurrently": "^8.2.2",
+    "cssnano": "^7.0.1",
+    "dotenv": "^16.4.5",
+    "errorhandler": "^1.5.1",
+    "express": "^4.19.2",
+    "file-loader": "^6.2.0",
+    "glslify-loader": "^2.0.0",
+    "gsap": "^3.12.5",
+    "lodash": "^4.17.21",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.2",
+    "pug": "^3.0.3",
+    "pug-plugin": "^5.3.0",
+    "raw-loader": "^4.0.2",
+    "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.77.4",
+    "sass-loader": "^14.2.1",
+    "tweakpane": "^4.0.3",
+    "vite": "^4.5.3",
+    "vite-plugin-node": "^3.1.0"
+  },
+  "dependencies": {
+    "@prismicio/client": "^7.5.0",
+    "@studio-freight/lenis": "^1.0.42",
+    "html-entities": "^2.5.2",
+    "i18n": "^0.15.1",
+    "include-media": "^2.0.0",
+    "node-fetch": "^3.3.2",
+    "serve-favicon": "^2.5.0",
+    "ua-parser-js": "^1.0.38"
+  }
+}

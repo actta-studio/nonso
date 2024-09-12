@@ -1,0 +1,29 @@
+// update to use aspect ratio
+
+:root {
+  --layout-spacing: 3rem;
+}
+
+@include media("<=tablet") {
+  :root {
+    --layout-spacing: 2rem;
+  }
+}
+
+@include media("<=phone") {
+  :root {
+    --layout-spacing: 1rem;
+  }
+}
+
+$color-white: #eceae5;
+$color-black: #363636;
+
+$z-indexes: (
+  "dev",
+  "preloader",
+  "transition",
+  "navigation",
+  "content",
+  "unsupported"
+);

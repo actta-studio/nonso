@@ -1,0 +1,15 @@
+@import "./home";
+@import "./notFound";
+
+.page {
+  width: 100vw;
+  height: 100vh;
+
+  visibility: hidden;
+
+  // template
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
