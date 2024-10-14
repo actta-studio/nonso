@@ -1,3 +1,1 @@
-# vite-prismic
-
-ACTTA STUDIO - Pug + Nodejs + Prismic + Vite
+# [WIP] Portfolio Development for Nonso Anetoh 
