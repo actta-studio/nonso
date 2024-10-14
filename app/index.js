@@ -5,8 +5,14 @@ import Lenis from "@studio-freight/lenis";
 import gsap from "gsap";
 
 import Home from "@/pages/home";
+import Blog from "@/pages/blog";
+import Contact from "@/pages/contact";
+import Services from "@/pages/services";
+import Work from "@/pages/work";
 import NotFound from "@/pages/notFound";
+import Navigation from "@/components/navigation";
 import Preloader from "@/components/preloader";
+import Logo from "@/components/logo";
 
 class App {
   constructor() {
@@ -17,18 +23,29 @@ class App {
     this.initLenis();
     this.createPreloader();
     this.createPages();
+    this.initNavigation();
     // design grid
 
     this.addLinkListeners();
     this.addEventListeners();
+    this.updateActiveLinks();
   }
 
   createPages() {
     this.pages = new Map();
 
-    this.pages.set("home", new Home({ lenis: this.lenis }));
-    // this.pages.set("home", new Home({ lenis: this.lenis }));
-    this.pages.set("404", new NotFound({ lenis: this.lenis }));
+    this.pages.set("home", new Home({ lenis: this.lenis, logo: this.logo }));
+    this.pages.set("blog", new Blog({ lenis: this.lenis, logo: this.logo }));
+    this.pages.set(
+      "contact",
+      new Contact({ lenis: this.lenis, logo: this.logo })
+    );
+    this.pages.set(
+      "services",
+      new Services({ lenis: this.lenis, logo: this.logo })
+    );
+    this.pages.set("work", new Work({ lenis: this.lenis, logo: this.logo }));
+    this.pages.set("404", new NotFound({ lenis: this.lenis, logo: this.logo }));
 
     this.page = this.pages.get(this.template);
 
@@ -43,15 +60,24 @@ class App {
   }
 
   createPreloader() {
-    this.preloader = new Preloader();
+    this.initLogoComponent();
+    this.preloader = new Preloader({ logo: this.logo });
     this.preloader.once("completed", this.onPreloaded.bind(this));
+  }
+
+  initNavigation() {
+    this.navigation = new Navigation();
+  }
+
+  initLogoComponent() {
+    this.logo = new Logo();
   }
 
   onPreloaded() {
     window.scrollTo(0, 0);
-    console.log("Preloaded!");
     this.preloader.destroy();
     this.page.show();
+    this.navigation.animateIn();
   }
 
   initLenis() {
@@ -81,10 +107,43 @@ class App {
     requestAnimationFrame(this.raf);
   }
 
+  updateActiveLinks() {
+    const currentUrl = window.location.href;
+    const navLinks = document.querySelectorAll(".header__bottom ul a");
+
+    // Update navigation links
+    navLinks.forEach((link) => {
+      if (link.href === currentUrl) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+
+    const urlParts = currentUrl.split("/");
+    const currentLanguage = urlParts[3];
+
+    // // Update language links
+    const languageLinks = document.querySelectorAll(
+      ".header__top .language-toggle a"
+    );
+
+    languageLinks.forEach((link) => {
+      const linkParts = link.href.split("/");
+      const linkLanguage = linkParts[3];
+
+      const listItem = link.closest("li");
+
+      if (linkLanguage === currentLanguage) {
+        listItem.classList.add("active");
+      } else {
+        listItem.classList.remove("active");
+      }
+    });
+  }
+
   async onChange({ url, push = true }) {
     if (url === window.location.href) return;
-
-    console.log("onChange", url);
 
     if (url.includes("/shop") && window.location.href.includes("/shop")) {
       await this.pages.get("shop").animateOutProducts();
@@ -121,6 +180,30 @@ class App {
     }
 
     this.page.create({ sourcePreloader: false });
+
+    const navContent = div.querySelector(".header__bottom");
+    const navContainer = document.querySelector(".header__bottom");
+
+    const newNavLinks = navContent.querySelectorAll(".header__bottom a");
+
+    const currentNavLinks = navContainer.querySelectorAll(".header__bottom a");
+
+    newNavLinks.forEach((newLink, index) => {
+      const currentLink = currentNavLinks[index];
+      if (currentLink) {
+        const clonedLink = newLink.cloneNode(true);
+        currentLink.href = clonedLink.href;
+        currentLink.textContent = clonedLink.textContent;
+        Array.from(clonedLink.attributes).forEach((attr) => {
+          if (attr.name !== "id") {
+            currentLink.setAttribute(attr.name, attr.value);
+          }
+        });
+      }
+    });
+
+    this.updateActiveLinks();
+
     this.page.show();
     this.addLinkListeners();
   }
@@ -129,8 +212,85 @@ class App {
     await this.onChange({ url: window.location.pathname, push: false });
   }
 
+  displayShortcuts() {
+    const shortcuts = document.querySelectorAll(
+      "[data-shortcut] ~ .superscript"
+    );
+
+    gsap.to(shortcuts, {
+      duration: 0.3,
+      autoAlpha: 1,
+    });
+  }
+
+  hideShortcuts() {
+    const shortcuts = document.querySelectorAll(
+      "[data-shortcut] ~ .superscript"
+    );
+
+    gsap.to(shortcuts, {
+      duration: 0.3,
+      autoAlpha: 0,
+    });
+  }
+
   addEventListeners() {
     window.addEventListener("popstate", this.onPopState.bind(this));
+
+    document.addEventListener("keydown", (event) => {
+      const isMac = navigator.userAgent.toUpperCase().indexOf("MAC") >= 0;
+
+      if (isMac && event.ctrlKey && event.altKey && !event.shiftKey) {
+        this.displayShortcuts();
+      }
+
+      if (!isMac && event.altKey && event.shiftKey && !event.ctrlKey) {
+        this.displayShortcuts();
+      }
+    });
+
+    document.addEventListener("keyup", (event) => {
+      const isMac = navigator.userAgent.toUpperCase().indexOf("MAC") >= 0;
+
+      if (isMac && !event.ctrlKey && !event.altKey) {
+        this.hideShortcuts();
+      }
+
+      if (!isMac && !event.altKey && !event.shiftKey) {
+        this.hideShortcuts();
+      }
+    });
+
+    this.addShortcutListeners();
+  }
+
+  addShortcutListeners() {
+    const shortcutElements = document.querySelectorAll("[data-shortcut]");
+
+    shortcutElements.forEach((element) => {
+      const shortcutKey = element.getAttribute("data-shortcut").toLowerCase();
+
+      document.addEventListener("keydown", (event) => {
+        const isMac = navigator.userAgent.toUpperCase().indexOf("MAC") >= 0;
+        const key = event.code.replace("Digit", "").toLowerCase();
+
+        if (
+          (isMac &&
+            event.ctrlKey &&
+            event.altKey &&
+            !event.shiftKey &&
+            key === shortcutKey) ||
+          (!isMac &&
+            event.altKey &&
+            event.shiftKey &&
+            !event.ctrlKey &&
+            key === shortcutKey)
+        ) {
+          element.click();
+        } else {
+        }
+      });
+    });
   }
 
   removeEventListeners() {

@@ -1,0 +1,9 @@
+extends ../base.pug 
+
+block variables
+	- var template = 'work'
+
+block content
+	div(class="page page--work")
+		.intro
+			p=document.data.intro_text

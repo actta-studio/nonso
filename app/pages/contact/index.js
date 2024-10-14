@@ -2,21 +2,19 @@ import { map } from "lodash";
 
 import Page from "../../classes/Page";
 
-export default class NotFound extends Page {
-  constructor({ lenis, logo }) {
+export default class Contact extends Page {
+  constructor({ lenis }) {
     super({
-      id: "notFound",
-      element: ".page--notFound",
+      id: "contact",
+      element: ".page--contact",
       elements: {},
     });
 
     this.lenis = lenis;
-    this.logo = logo;
   }
 
   show() {
     super.show();
-    this.logo.animate("not-found");
     this.lenis.start();
   }
 

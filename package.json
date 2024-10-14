@@ -1,15 +1,14 @@
 {
-  "name": "vite-prismic",
+  "name": "nonso-anetoh",
   "version": "1.0.0",
-  "description": "Starter for prismic+node+vite+pug",
+  "description": "nonsoanetoh.com",
   "main": "app.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"npm run backend:dev\" \"npm run watch\"",
-    "backend:dev": "nodemon app.js",
-    "frontend:dev": "vite",
-    "frontend:build": "vite build",
-    "watch": "nodemon -e js,ts,html,scss,css --ignore dist --exec 'npm run frontend:build'",
-    "browser-sync": "browser-sync start --proxy 'localhost:3001' --files 'dist/**/*'"
+    "start": "concurrently --kill-others \"npm run dev\" \"npm run watch\" \"npm run browser-sync\"",
+    "dev": "nodemon app.js",
+    "build": "vite build",
+    "watch": "nodemon -e js,pug,ts,html,scss,css --ignore dist --exec \"npm run build\"",
+    "browser-sync": "browser-sync start --files 'dist/*.*' --no-open --proxy 'http://127.0.0.1:3000'"
   },
   "author": "",
   "license": "ISC",

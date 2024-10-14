@@ -1,7 +1,23 @@
-header(id="header")
-	nav(class="header--navigation")
-		ul 
-			li 
-				a(href="/") Home
-			li
-				a(href="/broken-link") Broken Link
+header(class="header")
+	//- .header__bottom 
+	//- 	ul.language-toggle 
+	//- 		li
+	//- 			a(href="/en") EN
+	//- 		li
+	//- 			a(href="/fr") FR
+	//- 	.record-player
+	//- 	.clock 19:54 PM
+	nav.header__top
+		ul.navigation
+			each link, index in navigation.data.links
+				if link.interest_toggle
+					li.navigation__link
+						button#interests-toggle(data-shortcut=(index + 1))
+							span Interests
+						sup.superscript= "[" + (index + 1) + "]"
+				else
+					li.navigation__link
+						a(href=Link(link.page) data-shortcut=(index + 1))= link.label
+						sup.superscript= "[" + (index + 1) + "]"
+
+

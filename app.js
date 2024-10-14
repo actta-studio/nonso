@@ -26,20 +26,18 @@ app.set("view engine", "pug");
 app.use((req, res, next) => {
   const ua = UAParser(req.headers["user-agent"]);
 
-  console.log("ua", ua.device.type);
+  // console.log("ua", ua.device.type);
 
   res.locals.isDesktop = ua.device.type === undefined;
   res.locals.isTablet = ua.device.type === "tablet";
   res.locals.isPhone = ua.device.type === "mobile";
+  res.locals.Link = siteConfig.linkResolver;
 
   res.locals.Prismic = prismic;
-  res.locals.Link = siteConfig.handleLinkResolver;
   next();
 });
 
-app.use(favicon("public/meta/favicon.ico"));
-
-console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+app.use(favicon(path.join(__dirname, "dist", "favicon.ico")));
 
 if (process.env.NODE_ENV === "development") {
   app.use(errorHandler());

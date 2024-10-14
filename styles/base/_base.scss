@@ -1,16 +1,7 @@
 html {
   scroll-behavior: smooth;
-  font-size: calc((100vw / 1920) * 10);
   padding: 0;
   margin: 0;
-
-  @include media("<=tablet") {
-    font-size: calc((100vw / 768) * 10);
-  }
-
-  @include media("<=phone") {
-    font-size: calc((100vw / 430) * 10);
-  }
 }
 
 body {
@@ -19,8 +10,8 @@ body {
   margin: 0;
   background-color: $color-white;
   color: $color-grey;
-  font-family: "Satoshi", sans-serif;
-  font-weight: 500;
+  font-family: "PP-Neue-Montreal-Mono", sans-serif;
+  font-weight: 400;
 }
 
 @supports (-webkit-font-smoothing: antialiased) or
@@ -45,6 +36,7 @@ button {
   color: inherit;
   border: none;
   outline: none;
+  font: inherit;
 }
 
 [data-state="disabled"] {

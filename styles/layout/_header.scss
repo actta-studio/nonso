@@ -1,31 +1,145 @@
-#header {
+header.header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1rem;
+  height: 100dvh;
+  padding: var(--layout-spacing);
 
-  // template
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-  // visibility: hidden;
+  flex-direction: column;
+  justify-content: space-between;
 
   z-index: z("navigation");
 }
 
-#header nav {
-  width: 100%;
+.header__top {
+  position: relative;
 }
 
-#header ul {
+.header__top .navigation {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  width: 100%;
 }
 
-#header a {
-  font-size: 1.5rem;
+.header__top .navigation li {
+  position: relative;
+  display: flex;
+  gap: calc(var(--r) * 0.5);
+  visibility: hidden;
 }
+
+.header__top .navigation li a,
+.header__top .navigation li button {
+  vertical-align: middle;
+  font-size: calc(var(--r) + 0.35em);
+  font-weight: 300;
+}
+
+.header__top .navigation .navigation__icon {
+  width: calc(var(--r) * 1.5);
+  aspect-ratio: 1/1;
+  align-self: flex-start;
+}
+
+.header__top .superscript {
+  position: relative;
+  top: 0;
+  font-size: 9px;
+  vertical-align: top;
+  visibility: hidden;
+}
+
+.header__top .active {
+  font-weight: 500 !important;
+}
+
+// .header__top {
+//   display: grid;
+//   grid-template-columns: repeat(12, 1fr);
+//   grid-template-areas: ". . . . . clock clock . lang . . record";
+//   gap: calc(var(--r) * 2);
+// }
+
+// .header__top .clock {
+//   grid-area: clock;
+//   background-color: $color-highlight;
+//   color: $color-white;
+//   padding: calc(var(--r) * 0.5) calc(var(--r) * 0.75);
+//   height: fit-content;
+//   width: fit-content;
+//   position: relative;
+//   top: calc(var(--layout-spacing) * -1);
+//   transform: translateY(-100%);
+// }
+
+// .header__top .language-toggle {
+//   grid-area: lang;
+//   display: flex;
+//   justify-content: flex-end;
+//   font-size: calc(var(--r) + 0.35em);
+//   font-weight: 300;
+// }
+
+// .header__top .active {
+//   font-weight: 500;
+// }
+
+// .header__top .language-toggle {
+//   visibility: hidden;
+// }
+
+// .header__top .language-toggle li:first-child::after {
+//   content: ",";
+//   font-weight: 500;
+// }
+
+// .header__top .record-player {
+//   grid-area: record;
+//   width: 100%;
+//   aspect-ratio: 1/1;
+//   background-color: grey;
+//   visibility: hidden;
+// }
+
+// .header__bottom {
+//   position: relative;
+// }
+
+// .header__bottom .navigation {
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+// .header__bottom .navigation li {
+//   position: relative;
+//   display: flex;
+//   gap: calc(var(--r) * 0.5);
+//   flex: 1;
+//   visibility: hidden;
+// }
+
+// .header__bottom .navigation li a,
+// .header__bottom .navigation li button {
+//   vertical-align: middle;
+//   font-size: calc(var(--r) + 0.35em);
+//   font-weight: 300;
+// }
+
+// .header__bottom .navigation .navigation__icon {
+//   width: calc(var(--r) * 1.5);
+//   aspect-ratio: 1/1;
+//   align-self: flex-start;
+// }
+
+// .header__bottom .superscript {
+//   position: relative;
+//   top: 0;
+//   font-size: 9px;
+//   vertical-align: top;
+//   visibility: hidden;
+// }
+
+// .header__bottom .active {
+//   font-weight: 500 !important;
+// }

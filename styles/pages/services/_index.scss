@@ -1,4 +1,4 @@
-.page--home {
+.page--services {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   align-items: unset;
@@ -7,16 +7,14 @@
   color: $color-grey;
 }
 
-.page--home .intro {
+.page--services .intro {
   grid-column: span 3;
   font-size: calc(var(--r) + 0.3em);
   line-height: 1.2;
   font-weight: 400;
-  position: relative;
 }
 
-.page--home .intro h1,
-.page--home .intro p {
+.page--services .intro h1,
+.page--services .intro p {
   display: inline-block;
-  user-select: none;
 }

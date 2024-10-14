@@ -1,0 +1,5 @@
+#logo
+	.frames
+		each frame in logo.data.frames
+			figure(class="frame" data-label=frame.label)
+				img(src=frame.url alt=frame.alt || '')
