@@ -16,7 +16,6 @@ export default class Component extends EventEmitter {
     this.removeEventListeners = this.removeEventListeners.bind(this);
 
     this.create();
-    this.addEventListeners();
   }
 
   create() {

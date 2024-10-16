@@ -70,12 +70,13 @@ class App {
   }
 
   initLogoComponent() {
-    this.logo = new Logo();
+    this.logo = new Logo({ lenis: this.lenis });
   }
 
   onPreloaded() {
     window.scrollTo(0, 0);
     this.preloader.destroy();
+    this.logo.addEventListeners();
     this.page.show();
     this.navigation.animateIn();
   }
@@ -86,6 +87,8 @@ class App {
       easing: (x) => {
         return -(Math.cos(Math.PI * x) - 1) / 2;
       },
+      infinite: true,
+      overscroll: true,
     });
 
     this.raf = this.raf.bind(this);
@@ -109,9 +112,8 @@ class App {
 
   updateActiveLinks() {
     const currentUrl = window.location.href;
-    const navLinks = document.querySelectorAll(".header__bottom ul a");
+    const navLinks = document.querySelectorAll(".header__top ul a");
 
-    // Update navigation links
     navLinks.forEach((link) => {
       if (link.href === currentUrl) {
         link.classList.add("active");
@@ -145,10 +147,6 @@ class App {
   async onChange({ url, push = true }) {
     if (url === window.location.href) return;
 
-    if (url.includes("/shop") && window.location.href.includes("/shop")) {
-      await this.pages.get("shop").animateOutProducts();
-    }
-
     window.scrollTo(0, 0);
 
     this.page.hide();
@@ -181,12 +179,12 @@ class App {
 
     this.page.create({ sourcePreloader: false });
 
-    const navContent = div.querySelector(".header__bottom");
-    const navContainer = document.querySelector(".header__bottom");
+    const navContent = div.querySelector(".header__top");
+    const navContainer = document.querySelector(".header__top");
 
-    const newNavLinks = navContent.querySelectorAll(".header__bottom a");
+    const newNavLinks = navContent.querySelectorAll(".header__top a");
 
-    const currentNavLinks = navContainer.querySelectorAll(".header__bottom a");
+    const currentNavLinks = navContainer.querySelectorAll(".header__top a");
 
     newNavLinks.forEach((newLink, index) => {
       const currentLink = currentNavLinks[index];

@@ -2,7 +2,7 @@ import Component from "../classes/Component";
 import gsap from "gsap";
 
 export default class Logo extends Component {
-  constructor() {
+  constructor({ lenis, swapSpeed = 200 }) {
     super({
       element: "#logo",
       elements: {
@@ -13,9 +13,23 @@ export default class Logo extends Component {
       },
     });
 
+    console.log(lenis);
+
+    this.lenis = lenis;
+    console.log("lenis in constructor:", this.lenis);
+
+    this.swapSpeed = swapSpeed; // Control the swap speed
+    this.scrollDistance = 0;
+    this.scrollThreshold = 1000;
+    this.currentFrameIndex = 0;
+
     this.introSequence = [];
     this.buildSequences();
     this.timeline = gsap.timeline();
+  }
+
+  create() {
+    super.create();
   }
 
   buildSequences() {
@@ -38,31 +52,26 @@ export default class Logo extends Component {
     await this.showLastFrame(sequence);
   }
 
-  async showLastFrame(sequence) {
+  async showLastFrame(sequence, index = null) {
     this.timeline.clear();
 
-    // Hide all frames first
     sequence.forEach((frame) => {
       gsap.set(frame, { display: "none" });
     });
 
-    // Show the last frame
-    const lastFrame = sequence[sequence.length - 1];
+    const lastFrame = sequence[index || sequence.length - 1];
     gsap.set(lastFrame, { display: "block" });
   }
 
-  animateSequence(sequence, duration = 0.3) {
+  animateSequence(sequence, duration = 0.25) {
     return new Promise((resolve) => {
       this.timeline.clear();
 
-      // Iterate over each frame in the sequence
       sequence.forEach((frame, index) => {
-        // Show the current frame
         this.timeline.set(frame, {
           display: "block",
         });
 
-        // Hide the current frame after a delay
         this.timeline.set(
           frame,
           {
@@ -72,7 +81,6 @@ export default class Logo extends Component {
         );
       });
 
-      // Resolve the promise after the last frame is hidden
       this.timeline.call(resolve, null, null, `+=${duration}`);
     });
   }
@@ -97,7 +105,52 @@ export default class Logo extends Component {
 
   onHover() {}
 
-  addEventListeners() {}
+  addEventListeners() {
+    console.log("adding wheel event listener");
 
-  removeEventListeners() {}
+    // Function to handle the wheel event
+    const handleWheel = (e) => {
+      const direction = e.deltaY > 0 ? 1 : -1;
+      this.scrollDistance += Math.abs(e.deltaY);
+      console.log("scrolling: ", e.deltaY, "direction: ", direction);
+
+      if (this.scrollDistance >= this.scrollThreshold) {
+        this.scrollDistance = 0;
+        if (direction === -1) {
+          this.currentFrameIndex =
+            (this.currentFrameIndex - 1 + this.introSequence.length) %
+            this.introSequence.length;
+        } else {
+          this.currentFrameIndex =
+            (this.currentFrameIndex + 1) % this.introSequence.length;
+        }
+        this.showLastFrame(this.introSequence, this.currentFrameIndex);
+      }
+    };
+
+    // Add the wheel event listener
+    window.addEventListener("wheel", handleWheel);
+
+    this.addVisibilityChangeListener();
+  }
+
+  addVisibilityChangeListener() {
+    console.log("Adding visibility change listener");
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        console.log("document is hidden");
+        this.showLastFrame(this.introSequence, this.introSequence.length - 2);
+      } else {
+        setTimeout(() => {
+          console.log("document is visible");
+          this.showLastFrame(this.introSequence, this.currentFrameIndex);
+        }, 750);
+      }
+    });
+  }
+
+  removeEventListeners() {
+    console.log("removing scroll event listener: ", this.lenis);
+    this.lenis.off("scroll");
+  }
 }

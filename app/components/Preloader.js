@@ -15,6 +15,8 @@ export default class Preloader extends Component {
 
     this.logo = logo;
     this.createLoader();
+
+    this.addEventListeners();
   }
 
   createLoader() {

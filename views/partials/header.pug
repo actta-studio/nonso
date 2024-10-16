@@ -1,13 +1,7 @@
 header(class="header")
-	//- .header__bottom 
-	//- 	ul.language-toggle 
-	//- 		li
-	//- 			a(href="/en") EN
-	//- 		li
-	//- 			a(href="/fr") FR
-	//- 	.record-player
-	//- 	.clock 19:54 PM
 	nav.header__top
+		h1.title Nonso Anetoh
+		p.tagline Frontend Developer
 		ul.navigation
 			each link, index in navigation.data.links
 				if link.interest_toggle
@@ -19,5 +13,12 @@ header(class="header")
 					li.navigation__link
 						a(href=Link(link.page) data-shortcut=(index + 1))= link.label
 						sup.superscript= "[" + (index + 1) + "]"
+	ul.language-toggle
+		li
+			a(href="/en") EN
+		li
+			a(href="/fr") FR
+	.record-player
+
 
 

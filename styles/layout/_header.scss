@@ -15,17 +15,34 @@ header.header {
 
 .header__top {
   position: relative;
+  display: grid;
+  grid-template-areas: "title title . tagline tagline tagline tagline navigation navigation navigation navigation navigation";
+}
+
+.header__top .title {
+  grid-area: title;
+  font-size: calc(var(--r) + 0.35em);
+}
+
+.header__top .tagline {
+  grid-area: tagline;
+  font-size: calc(var(--r) + 0.35em);
 }
 
 .header__top .navigation {
+  grid-area: navigation;
   display: flex;
   justify-content: space-between;
 }
 
-.header__top .navigation li {
+.header__top .navigation .navigation__item {
   position: relative;
   display: flex;
   gap: calc(var(--r) * 0.5);
+  visibility: hidden;
+}
+
+.header__top .navigation .navigation__link {
   visibility: hidden;
 }
 
@@ -52,6 +69,26 @@ header.header {
 
 .header__top .active {
   font-weight: 500 !important;
+}
+
+header.header .language-toggle {
+  display: flex;
+  justify-content: flex-end;
+  font-size: calc(var(--r) + 0.35em);
+  visibility: hidden;
+}
+
+header.header .language-toggle li:last-child::before {
+  content: " /";
+}
+
+header.header .record-player {
+  width: calc(var(--r) * 13.8);
+  aspect-ratio: 1/1;
+  background-color: #cacaca;
+  display: flex;
+  align-self: flex-end;
+  visibility: hidden;
 }
 
 // .header__top {
