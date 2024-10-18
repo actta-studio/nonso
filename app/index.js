@@ -17,14 +17,12 @@ import Logo from "@/components/logo";
 class App {
   constructor() {
     console.log("App has been initialized!");
-
     this.createContent();
 
     this.initLenis();
     this.createPreloader();
     this.createPages();
     this.initNavigation();
-    // design grid
 
     this.addLinkListeners();
     this.addEventListeners();
