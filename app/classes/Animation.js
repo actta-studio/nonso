@@ -9,7 +9,6 @@ GSAP.registerPlugin(CustomEase, ScrollTrigger);
 export default class Animation extends Component {
   constructor({ element, elements, threshold }) {
     super({ element, elements });
-
     this.threshold = threshold || 0.2;
     this.createObserver();
   }
