@@ -1,5 +1,5 @@
 header(class="header")
-	nav.header__top
+	nav.header__top(class="header__top--desktop")
 		h1.title Nonso Anetoh
 		p.tagline Frontend Developer
 		ul.navigation
@@ -13,7 +13,18 @@ header(class="header")
 					li.navigation__link
 						a(href=Link(link.page) data-shortcut=(index + 1))= link.label
 						sup.superscript= "[" + (index + 1) + "]"
-	ul.language-toggle
+	nav.header__top(class="header__top--mobile")
+		.group 
+			h1.title Nonso Anetoh
+			p.tagline Frontend Developer
+		
+		a(href="/en" class="language-toggle") EN
+
+
+		button.menu-toggle
+			span Menu
+
+	ul.language-toggle(class="language-toggle--desktop")
 		li
 			a(href="/en") EN
 		li

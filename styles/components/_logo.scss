@@ -17,6 +17,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: calc(var(--r) * 29.442);
+
+  @include media("<=tablet") {
+    width: calc(var(--r) * 20.442);
+  }
 }
 
 #logo .frame img {
