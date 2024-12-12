@@ -4,7 +4,7 @@ import gsap from "gsap";
 import Component from "../classes/Component";
 
 export default class Preloader extends Component {
-  constructor({ logo }) {
+  constructor({ logo, template }) {
     super({
       id: "preloader",
       element: ".preloader",
@@ -14,6 +14,7 @@ export default class Preloader extends Component {
     });
 
     this.logo = logo;
+    this.template = template;
     this.createLoader();
 
     this.addEventListeners();
@@ -25,7 +26,13 @@ export default class Preloader extends Component {
 
   async onLoaded() {
     return new Promise(async (resolve) => {
-      await this.logo.animate("intro");
+      console.log("this.template - ", this.template);
+
+      if (this.template === "404") {
+        await this.logo.animate("not-found");
+      } else {
+        await this.logo.animate("intro");
+      }
 
       this.animateOut = gsap.timeline({});
 
