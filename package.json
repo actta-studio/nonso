@@ -4,7 +4,7 @@
   "description": "nonsoanetoh.com",
   "main": "app.js",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run dev\" \"npm run watch\" \"npm run browser-sync\"",
+    "start": "concurrently --kill-others \"npm run dev\" \"npm run watch\" ",
     "dev": "nodemon app.js",
     "build": "vite build",
     "watch": "nodemon -e js,pug,ts,html,scss,css --ignore dist --exec \"npm run build\"",

@@ -55,8 +55,10 @@ html(lang=`en` class=`${isDesktop ? 'desktop' : isTablet ? 'tablet' : 'phone'}`)
 		.page-transition
 		.design-grid 
 
-		main.content#content(data-template=template)
-			block content
+		#page-manager
+			div.modal-container
+					main#content.content-modal(data-template=template data-type=type)
+						block content
 
 		
 		script(src="main.js")

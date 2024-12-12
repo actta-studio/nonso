@@ -1,35 +1,44 @@
-header(class="header")
-	nav.header__top(class="header__top--desktop")
-		h1.title Nonso Anetoh
-		p.tagline Frontend Developer
-		ul.navigation
-			each link, index in navigation.data.links
-				if link.interest_toggle
-					li.navigation__link
-						button#interests-toggle(data-shortcut=(index + 1))
-							span Interests
-						sup.superscript= "[" + (index + 1) + "]"
-				else
-					li.navigation__link
-						a(href=Link(link.page) data-shortcut=(index + 1))= link.label
-						sup.superscript= "[" + (index + 1) + "]"
-	nav.header__top(class="header__top--mobile")
-		.group 
-			h1.title Nonso Anetoh
-			p.tagline Frontend Developer
+//- header(class="header")
+//- 	nav.header__top(class="header__top--desktop")
+//- 		h1.title Nonso Anetoh
+//- 		p.tagline Frontend Developer
+//- 		ul.navigation
+//- 			each link, index in navigation.data.links
+//- 				if link.interest_toggle
+//- 					li.navigation__link
+//- 						button#interests-toggle(data-shortcut=(index + 1))
+//- 							span Interests
+//- 						sup.superscript= "[" + (index + 1) + "]"
+//- 				else
+//- 					li.navigation__link
+//- 						a(href=Link(link.page) data-shortcut=(index + 1))= link.label
+//- 						sup.superscript= "[" + (index + 1) + "]"
+//- 	nav.header__top(class="header__top--mobile")
+//- 		.group 
+//- 			h1.title Nonso Anetoh
+//- 			p.tagline Frontend Developer
 		
-		a(href="/en" class="language-toggle") EN
+//- 		a(href="/en" class="language-toggle") EN
 
 
-		button.menu-toggle
-			span Menu
+//- 		button.menu-toggle
+//- 			span Menu
 
-	ul.language-toggle(class="language-toggle--desktop")
-		li
-			a(href="/en") EN
-		li
-			a(href="/fr") FR
-	.record-player
+//- 	ul.language-toggle(class="language-toggle--desktop")
+//- 		li
+//- 			a(href="/en") EN
+//- 		li
+//- 			a(href="/fr") FR
+//- 	.record-player
 
-
+header(class="header" id="header")
+	.desktop
+		.title=navigation.data.title
+		.tagline=navigation.data.tagline
+		nav.navigation__links
+			each link, index in navigation.data.links
+					a(class="navigation__link" href=Link(link.page) data-shortcut=(index + 1))
+						span=link.label
+						svg(class="indicator" viewbox='0 0 8 14' fill='none' xmlns='http://www.w3.org/2000/svg')
+							path(d='M4 14L7.60844 7.75H0.391561L4 14ZM3.375 0V8.375H4.625V0H3.375Z' fill='black')
 

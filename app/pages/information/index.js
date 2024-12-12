@@ -1,12 +1,10 @@
-import { map } from "lodash";
-
 import Page from "../../classes/Page";
 
-export default class Contact extends Page {
+export default class Information extends Page {
   constructor({ lenis }) {
     super({
-      id: "contact",
-      element: ".page--contact",
+      id: "information",
+      element: ".page--information",
       elements: {},
     });
 

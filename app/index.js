@@ -1,18 +1,22 @@
 import "../styles/main.scss";
 
+// libraries
 import each from "lodash/each";
 import Lenis from "@studio-freight/lenis";
 import gsap from "gsap";
 
-import Home from "@/pages/home";
-import Blog from "@/pages/blog";
-import Contact from "@/pages/contact";
-import Services from "@/pages/services";
-import Work from "@/pages/work";
-import NotFound from "@/pages/notFound";
+// components
 import Navigation from "@/components/navigation";
 import Preloader from "@/components/preloader";
 import Logo from "@/components/logo";
+
+// pages
+import Home from "@/pages/home";
+import Information from "@/pages/information";
+import Work from "@/pages/work";
+import Blog from "@/pages/blog";
+import NotFound from "@/pages/notFound";
+import PageManager from "./components/PageManager";
 
 class App {
   constructor() {
@@ -31,30 +35,31 @@ class App {
 
   createPages() {
     this.pages = new Map();
+    this.pageManager = new PageManager();
 
-    this.pages.set("home", new Home({ lenis: this.lenis, logo: this.logo }));
-    this.pages.set("blog", new Blog({ lenis: this.lenis, logo: this.logo }));
-    this.pages.set(
-      "contact",
-      new Contact({ lenis: this.lenis, logo: this.logo })
-    );
-    this.pages.set(
-      "services",
-      new Services({ lenis: this.lenis, logo: this.logo })
-    );
-    this.pages.set("work", new Work({ lenis: this.lenis, logo: this.logo }));
-    this.pages.set("404", new NotFound({ lenis: this.lenis, logo: this.logo }));
+    console.log("this.pageManager - ", this.pageManager);
+
+    this.pageConfig = {
+      lenis: this.lenis,
+      logo: this.logo,
+    };
+
+    this.pages.set("home", new Home(this.pageConfig));
+    this.pages.set("information", new Information(this.pageConfig));
+    this.pages.set("blog", new Blog(this.pageConfig));
+    this.pages.set("work", new Work(this.pageConfig));
+    this.pages.set("404", new NotFound(this.pageConfig));
 
     this.page = this.pages.get(this.template);
 
     console.log("this.page - ", this.page);
     this.page.create({ sourcePreloader: true });
-    // this.page.show();
   }
 
   createContent() {
     this.content = document.querySelector("#content");
     this.template = this.content.getAttribute("data-template");
+    this.pageType = this.content.getAttribute("data-type");
   }
 
   createPreloader() {
@@ -75,6 +80,7 @@ class App {
     window.scrollTo(0, 0);
     this.preloader.destroy();
     this.logo.addEventListeners();
+    console.log(this.page);
     this.page.show();
     this.navigation.animateIn();
   }
@@ -85,8 +91,8 @@ class App {
       easing: (x) => {
         return -(Math.cos(Math.PI * x) - 1) / 2;
       },
-      infinite: true,
-      overscroll: true,
+      // infinite: true,
+      // overscroll: true,
     });
 
     this.raf = this.raf.bind(this);
@@ -143,10 +149,6 @@ class App {
   }
 
   async onChange({ url, push = true }) {
-    if (url === window.location.href) return;
-
-    window.scrollTo(0, 0);
-
     this.page.hide();
 
     const request = await window.fetch(url);
@@ -161,10 +163,16 @@ class App {
     const divContent = div.querySelector("#content");
     this.template = divContent.getAttribute("data-template");
 
+    this.pageType = divContent.getAttribute("data-type");
+
+    this.pageManager.onRouteChange({ pageType: this.pageType, url });
+
     this.content.setAttribute(
       "data-template",
       divContent.getAttribute("data-template")
     );
+
+    this.content.className = divContent.className;
 
     this.content.innerHTML = divContent.innerHTML;
 
@@ -177,28 +185,28 @@ class App {
 
     this.page.create({ sourcePreloader: false });
 
-    const navContent = div.querySelector(".header__top");
-    const navContainer = document.querySelector(".header__top");
+    // const navContent = div.querySelector("#header nav");
+    // const navContainer = document.querySelector(".header__top");
 
-    const newNavLinks = navContent.querySelectorAll(".header__top a");
+    // const newNavLinks = navContent.querySelectorAll(".header__top a");
 
-    const currentNavLinks = navContainer.querySelectorAll(".header__top a");
+    // const currentNavLinks = navContainer.querySelectorAll(".header__top a");
 
-    newNavLinks.forEach((newLink, index) => {
-      const currentLink = currentNavLinks[index];
-      if (currentLink) {
-        const clonedLink = newLink.cloneNode(true);
-        currentLink.href = clonedLink.href;
-        currentLink.textContent = clonedLink.textContent;
-        Array.from(clonedLink.attributes).forEach((attr) => {
-          if (attr.name !== "id") {
-            currentLink.setAttribute(attr.name, attr.value);
-          }
-        });
-      }
-    });
+    // newNavLinks.forEach((newLink, index) => {
+    //   const currentLink = currentNavLinks[index];
+    //   if (currentLink) {
+    //     const clonedLink = newLink.cloneNode(true);
+    //     currentLink.href = clonedLink.href;
+    //     currentLink.textContent = clonedLink.textContent;
+    //     Array.from(clonedLink.attributes).forEach((attr) => {
+    //       if (attr.name !== "id") {
+    //         currentLink.setAttribute(attr.name, attr.value);
+    //       }
+    //     });
+    //   }
+    // });
 
-    this.updateActiveLinks();
+    // this.updateActiveLinks();
 
     this.page.show();
     this.addLinkListeners();

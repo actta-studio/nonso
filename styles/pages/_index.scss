@@ -1,29 +1,53 @@
-.page {
+#page-manager {
   width: 100vw;
-  height: 100vh;
+  position: relative;
+  display: grid;
+  grid-template-areas: ". . . content content content . . . . . .";
+  grid-template-columns: repeat(12, 1fr);
+  padding: 0 var(--layout-spacing);
+  padding-top: calc(var(--r) * 7.6);
+}
 
-  visibility: hidden;
+#page-manager .text-content {
+  position: relative;
+  grid-area: content;
+  font-size: calc(var(--r) + 0.45em);
 
-  // template
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: var(--layout-spacing);
+  gap: calc(var(--r) * 1.5);
+  z-index: 1;
 }
 
-.page .highlight {
-  position: relative;
-  color: $color-highlight !important;
-  // text-decoration: underline;
-  // text-decoration-color: $color-highlight !important;
-  // text-underline-offset: 0.125em;
-  cursor: pointer;
-  z-index: 10000;
+#page-manager .modal-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20rem;
+  background-color: #acacac;
+  z-index: 3;
+  transform: scaleY(0);
+  transform-origin: top;
 }
+
+// #content {
+//   width: 100%;
+//   padding: 0 var(--layout-spacing);
+//   padding-top: calc(var(--r) * 7.6);
+// }
+
+// #content.content-modal {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   height: 20rem;
+//   background-color: blue;
+//   z-index: 3;
+// }
 
 @import "./home";
 @import "./work";
 @import "./blog";
-@import "./contact";
-@import "./services";
+@import "./information";
 @import "./notFound";

@@ -30,8 +30,6 @@ const handleDefaultRequests = async (lang) => {
     logo = null;
   }
 
-  console.log(logo.data);
-
   if (logo) {
     if (!logo.data.frames) {
       logo.data.frames = [];
@@ -62,8 +60,6 @@ const handleDefaultRequests = async (lang) => {
         logo.data.frames.push(frame);
       }
     });
-
-    console.log(logo.data.frames);
   }
   return { navigation, logo };
 };
@@ -118,6 +114,8 @@ router.get(
       });
     }
 
+    console.log("document - ", document);
+
     res.render(`pages/${uid}`, { document, ...defaults });
   })
 );
@@ -154,6 +152,8 @@ router.get(
     }
 
     document = siteConfig.parseDocumentFields(document, ["intro_text"]);
+
+    console.log("document - ", document);
 
     res.render("pages/home", { document, ...defaults });
   })

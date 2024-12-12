@@ -6,9 +6,8 @@ export default class Navigation extends Component {
     super({
       element: "header.header",
       elements: {
-        languageToggle: "header.header .language-toggle",
-        links: ".header__top .navigation .navigation__link",
-        recordPlayer: "header.header .record-player",
+        pageManager: "#page-manager",
+        navigation: "header.header",
       },
     });
 
@@ -18,12 +17,9 @@ export default class Navigation extends Component {
   }
 
   animateIn() {
+    // return;
     this.timeline.from(
-      [
-        this.elements.get("languageToggle"),
-        this.elements.get("links"),
-        this.elements.get("recordPlayer"),
-      ],
+      [this.elements.get("navigation"), this.elements.get("pageManager")],
       {
         autoAlpha: 0,
         duration: 1,

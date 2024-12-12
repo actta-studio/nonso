@@ -13,10 +13,7 @@ export default class Logo extends Component {
       },
     });
 
-    console.log(lenis);
-
     this.lenis = lenis;
-    console.log("lenis in constructor:", this.lenis);
 
     this.swapSpeed = swapSpeed; // Control the swap speed
     this.scrollDistance = 0;
@@ -33,11 +30,6 @@ export default class Logo extends Component {
   }
 
   buildSequences() {
-    console.log("base-frame: ", this.elements.get("baseFrame"));
-    console.log("routine-frames: ", this.elements.get("routineFrames"));
-    console.log("interaction-frames: ", this.elements.get("interactionFrames"));
-    console.log("not-found-frames: ", this.elements.get("notFoundFrames"));
-
     this.introSequence = [
       this.elements.get("baseFrame"),
       ...this.elements.get("routineFrames"),
@@ -135,14 +127,11 @@ export default class Logo extends Component {
   }
 
   addVisibilityChangeListener() {
-    console.log("Adding visibility change listener");
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
-        console.log("document is hidden");
         this.showLastFrame(this.introSequence, this.introSequence.length - 2);
       } else {
         setTimeout(() => {
-          console.log("document is visible");
           this.showLastFrame(this.introSequence, this.currentFrameIndex);
         }, 750);
       }
@@ -150,7 +139,6 @@ export default class Logo extends Component {
   }
 
   removeEventListeners() {
-    console.log("removing scroll event listener: ", this.lenis);
     this.lenis.off("scroll");
   }
 }

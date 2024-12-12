@@ -49,6 +49,10 @@ function parseDocumentFields(document, fields) {
   return document;
 }
 
+function linkReplace(text) {
+  return text.replace(/([a-z]{2})-ca/g, "$1");
+}
+
 module.exports.client = prismic.createClient(endpoint, {
   fetch,
   accessToken,
@@ -74,4 +78,5 @@ module.exports.siteConfig = {
   },
   linkResolver,
   parseDocumentFields,
+  linkReplace,
 };

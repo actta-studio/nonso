@@ -1,22 +1,14 @@
 .page--home {
   display: grid;
+  grid-template-areas: ". . . content content content . . . . . .";
   grid-template-columns: repeat(12, 1fr);
-  align-items: unset;
-  gap: calc(var(--r) * 2);
-  background-color: $color-white;
-  color: $color-grey;
 }
 
-.page--home .intro {
-  grid-column: span 3;
-  font-size: calc(var(--r) + 0.3em);
-  line-height: 1.2;
-  font-weight: 400;
-  position: relative;
-}
+.page--home .text-content {
+  grid-area: content;
+  font-size: calc(var(--r) + 0.45em);
 
-.page--home .intro h1,
-.page--home .intro p {
-  display: inline-block;
-  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--r) * 1.5);
 }

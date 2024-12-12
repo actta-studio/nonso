@@ -32,6 +32,7 @@ app.use((req, res, next) => {
   res.locals.isTablet = ua.device.type === "tablet";
   res.locals.isPhone = ua.device.type === "mobile";
   res.locals.Link = siteConfig.linkResolver;
+  res.locals.LinkReplace = siteConfig.linkReplace;
 
   res.locals.Prismic = prismic;
   next();
