@@ -17,6 +17,7 @@ import Work from "@/pages/work";
 import Blog from "@/pages/blog";
 import NotFound from "@/pages/notFound";
 import PageManager from "./components/PageManager";
+import { template } from "lodash";
 
 class App {
   constructor() {
@@ -64,7 +65,10 @@ class App {
 
   createPreloader() {
     this.initLogoComponent();
-    this.preloader = new Preloader({ logo: this.logo });
+    this.preloader = new Preloader({
+      logo: this.logo,
+      template: this.template,
+    });
     this.preloader.once("completed", this.onPreloaded.bind(this));
   }
 
@@ -80,7 +84,6 @@ class App {
     window.scrollTo(0, 0);
     this.preloader.destroy();
     this.logo.addEventListeners();
-    console.log(this.page);
     this.page.show();
     this.navigation.animateIn();
   }
@@ -91,8 +94,6 @@ class App {
       easing: (x) => {
         return -(Math.cos(Math.PI * x) - 1) / 2;
       },
-      // infinite: true,
-      // overscroll: true,
     });
 
     this.raf = this.raf.bind(this);
