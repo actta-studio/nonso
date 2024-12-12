@@ -15,7 +15,7 @@ export default class Logo extends Component {
 
     this.lenis = lenis;
 
-    this.swapSpeed = swapSpeed; // Control the swap speed
+    this.swapSpeed = swapSpeed;
     this.scrollDistance = 0;
     this.scrollThreshold = 1000;
     this.currentFrameIndex = 0;
@@ -37,7 +37,10 @@ export default class Logo extends Component {
     ];
     this.baseSequence = [this.elements.get("baseFrame")];
     this.interactionSequence = [...this.elements.get("interactionFrames")];
-    this.notFoundSequence = [this.elements.get("notFoundFrames")];
+    this.notFoundSequence = [
+      ...this.elements.get("routineFrames"),
+      this.elements.get("notFoundFrames"),
+    ];
   }
 
   async reset(sequence) {
@@ -87,6 +90,7 @@ export default class Logo extends Component {
         await this.animateSequence(this.interactionSequence);
         break;
       case "not-found":
+        await this.animateSequence(this.notFoundSequence);
         await this.reset(this.notFoundSequence);
         break;
       default:
@@ -98,30 +102,25 @@ export default class Logo extends Component {
   onHover() {}
 
   addEventListeners() {
-    console.log("adding wheel event listener");
+    // const handleWheel = (e) => {
+    //   const direction = e.deltaY > 0 ? 1 : -1;
+    //   this.scrollDistance += Math.abs(e.deltaY);
 
-    // Function to handle the wheel event
-    const handleWheel = (e) => {
-      const direction = e.deltaY > 0 ? 1 : -1;
-      this.scrollDistance += Math.abs(e.deltaY);
-      console.log("scrolling: ", e.deltaY, "direction: ", direction);
+    //   if (this.scrollDistance >= this.scrollThreshold) {
+    //     this.scrollDistance = 0;
+    //     if (direction === -1) {
+    //       this.currentFrameIndex =
+    //         (this.currentFrameIndex - 1 + this.introSequence.length) %
+    //         this.introSequence.length;
+    //     } else {
+    //       this.currentFrameIndex =
+    //         (this.currentFrameIndex + 1) % this.introSequence.length;
+    //     }
+    //     this.showLastFrame(this.introSequence, this.currentFrameIndex);
+    //   }
+    // };
 
-      if (this.scrollDistance >= this.scrollThreshold) {
-        this.scrollDistance = 0;
-        if (direction === -1) {
-          this.currentFrameIndex =
-            (this.currentFrameIndex - 1 + this.introSequence.length) %
-            this.introSequence.length;
-        } else {
-          this.currentFrameIndex =
-            (this.currentFrameIndex + 1) % this.introSequence.length;
-        }
-        this.showLastFrame(this.introSequence, this.currentFrameIndex);
-      }
-    };
-
-    // Add the wheel event listener
-    window.addEventListener("wheel", handleWheel);
+    // window.addEventListener("wheel", handleWheel);
 
     this.addVisibilityChangeListener();
   }
@@ -133,7 +132,7 @@ export default class Logo extends Component {
       } else {
         setTimeout(() => {
           this.showLastFrame(this.introSequence, this.currentFrameIndex);
-        }, 750);
+        }, 950);
       }
     });
   }
