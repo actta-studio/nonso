@@ -5,7 +5,7 @@ import Page from "../../classes/Page";
 export default class NotFound extends Page {
   constructor({ lenis, logo }) {
     super({
-      id: "notFound",
+      id: "404",
       element: ".page--notFound",
       elements: {},
     });
@@ -16,7 +16,7 @@ export default class NotFound extends Page {
 
   show() {
     super.show();
-    this.logo.animate("not-found");
+    // this.logo.animate("not-found");
     this.lenis.start();
   }
 
