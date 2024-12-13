@@ -105,6 +105,8 @@ router.get(
     } catch (error) {
       console.error(`Error fetching page with uid - ${uid}:`, error.message);
       document = null;
+
+      console.log("defaults - ", defaults);
     }
 
     if (!document) {
@@ -166,6 +168,8 @@ router.get(
 
     const fullLang = handleLanguageMatching(lang);
     const defaults = await handleDefaultRequests(fullLang);
+
+    console.log("defaults - ", defaults);
 
     if (!fullLang) {
       return res.status(404).render("pages/404", {
