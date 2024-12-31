@@ -23,7 +23,8 @@ html(lang=`en` class=`${isDesktop ? 'desktop' : isTablet ? 'tablet' : 'phone'}`)
 		link(rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png")
 		link(rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png")
 		link(rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png")
-		link(rel="icon" type="image/x-icon" href="favicon.ico")
+		//- link(rel="icon" type="image/x-icon" href="favicon.ico")
+		link(rel="icon"  href="active-spotify-player.gif")
 		
 		link(rel="manifest" href="site.webmanifest")
 
@@ -48,17 +49,21 @@ html(lang=`en` class=`${isDesktop ? 'desktop' : isTablet ? 'tablet' : 'phone'}`)
 
 			
 	body
-		include ./partials/logo
 		include ./partials/preloader
-		include ./partials/header
+		.logo-container
+			include ./partials/logo
+			button#page-toggle.hidden
+				svg(viewbox='0 0 38 38' fill='none' xmlns='http://www.w3.org/2000/svg')
+					path(d='M3 16.5C1.61929 16.5 0.5 17.6193 0.5 19C0.5 20.3807 1.61929 21.5 3 21.5L3 16.5ZM36.7678 20.7678C37.7441 19.7915 37.7441 18.2085 36.7678 17.2322L20.8579 1.32233C19.8816 0.34602 18.2986 0.34602 17.3223 1.32233C16.346 2.29864 16.346 3.88155 17.3223 4.85786L31.4645 19L17.3223 33.1421C16.346 34.1184 16.346 35.7014 17.3223 36.6777C18.2986 37.654 19.8816 37.654 20.8579 36.6777L36.7678 20.7678ZM3 21.5L35 21.5V16.5L3 16.5L3 21.5Z' fill='black')
+		include ./partials/spotify-player
 		
-		.page-transition
 		.design-grid 
 
-		#page-manager
-			div.modal-container
-					main#content.content-modal(data-template=template data-type=type)
-						block content
+		#wrapper
+			include ./partials/header
+			#page-manager
+				main#content(data-template=template data-type=type)
+					block content
 
 		
 		script(src="main.js")
