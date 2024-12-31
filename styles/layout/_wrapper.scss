@@ -1,0 +1,19 @@
+#wrapper {
+  --gap: 2;
+  width: 100%;
+  display: grid;
+  grid-template-areas: ". . . . . page-manager page-manager page-manager page-manager page-manager page-manager page-manager";
+  grid-template-columns: repeat(12, 1fr);
+  gap: calc(var(--r) * var(--gap));
+
+  @include media("<=tablet") {
+    --gap: 1;
+    grid-template-areas: ". . page-manager page-manager page-manager page-manager page-manager page-manager page-manager page-manager page-manager page-manager";
+  }
+
+  @include media("<=phone") {
+    height: 100dvh;
+    --gap: 1;
+    grid-template-areas: "page-manager page-manager page-manager page-manager page-manager page-manager page-manager page-manager page-manager page-manager page-manager page-manager";
+  }
+}
