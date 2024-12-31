@@ -8,6 +8,7 @@ import gsap from "gsap";
 // components
 import Navigation from "@/components/navigation";
 import Preloader from "@/components/preloader";
+import SpotifyPlayer from "@/components/SpotifyPlayer";
 import Logo from "@/components/logo";
 
 // pages
@@ -28,6 +29,7 @@ class App {
     this.createPreloader();
     this.createPages();
     this.initNavigation();
+    this.initSpotifyPlayer();
 
     this.addLinkListeners();
     this.addEventListeners();
@@ -36,7 +38,6 @@ class App {
 
   createPages() {
     this.pages = new Map();
-    this.pageManager = new PageManager();
 
     console.log("this.pageManager - ", this.pageManager);
 
@@ -55,6 +56,8 @@ class App {
 
     console.log("this.page - ", this.page);
     this.page.create({ sourcePreloader: true });
+
+    this.pageManager = new PageManager({ currentTemplate: this.template });
   }
 
   createContent() {
@@ -74,6 +77,10 @@ class App {
 
   initNavigation() {
     this.navigation = new Navigation();
+  }
+
+  initSpotifyPlayer() {
+    this.spotifyPlayer = new SpotifyPlayer();
   }
 
   initLogoComponent() {
@@ -207,7 +214,7 @@ class App {
     //   }
     // });
 
-    // this.updateActiveLinks();
+    await this.spotifyPlayer.onChange();
 
     this.page.show();
     this.addLinkListeners();
