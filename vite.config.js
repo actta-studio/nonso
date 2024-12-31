@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import path from "path";
-import postcss from "rollup-plugin-postcss";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 export default defineConfig({
   resolve: {
@@ -41,6 +41,7 @@ export default defineConfig({
     require("cssnano")({
       preset: "default",
     }),
+    nodePolyfills(),
   ],
   css: {
     preprocessorOptions: {},
@@ -48,5 +49,23 @@ export default defineConfig({
   server: {
     port: 5000,
     open: true,
+  },
+  define: {
+    "process.env": {
+      VITE_AIRTABLE_PAT: JSON.stringify(process.env.VITE_AIRTABLE_PAT),
+      VITE_AIRTABLE_BASE_ID: JSON.stringify(process.env.VITE_AIRTABLE_BASE_ID),
+      VITE_SPOTIFY_REFRESH_TOKEN: JSON.stringify(
+        process.env.VITE_SPOTIFY_REFRESH_TOKEN
+      ),
+      VITE_SPOTIFY_CLIENT_ID: JSON.stringify(
+        process.env.VITE_SPOTIFY_CLIENT_ID
+      ),
+      VITE_SPOTIFY_CLIENT_SECRET: JSON.stringify(
+        process.env.VITE_SPOTIFY_CLIENT_SECRET
+      ),
+      VITE_AIRTABLE_TOKEN_ID: JSON.stringify(
+        process.env.VITE_AIRTABLE_TOKEN_ID
+      ),
+    },
   },
 });
