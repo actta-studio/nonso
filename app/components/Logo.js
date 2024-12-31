@@ -6,6 +6,7 @@ export default class Logo extends Component {
     super({
       element: "#logo",
       elements: {
+        eventCapture: "#logo .event-capture",
         baseFrame: "[data-label='base-frame']",
         routineFrames: "[data-label^='routine-frame']",
         interactionFrames: "[data-label^='interaction-frame']",
@@ -15,11 +16,6 @@ export default class Logo extends Component {
 
     this.lenis = lenis;
 
-    this.swapSpeed = swapSpeed;
-    this.scrollDistance = 0;
-    this.scrollThreshold = 1000;
-    this.currentFrameIndex = 0;
-
     this.introSequence = [];
     this.buildSequences();
     this.timeline = gsap.timeline();
@@ -27,6 +23,15 @@ export default class Logo extends Component {
 
   create() {
     super.create();
+  }
+
+  updateDimensions() {
+    const firstImage = this.introSequence[0].querySelector("img");
+    if (firstImage) {
+      const { width, height } = firstImage.getBoundingClientRect();
+      this.element.style.setProperty("--width", `${width}px`);
+      this.element.style.setProperty("--height", `${height}px`);
+    }
   }
 
   buildSequences() {
@@ -43,8 +48,8 @@ export default class Logo extends Component {
     ];
   }
 
-  async reset(sequence) {
-    await this.showLastFrame(sequence);
+  async reset(sequence, index = null) {
+    await this.showLastFrame(sequence, index);
   }
 
   async showLastFrame(sequence, index = null) {
@@ -52,10 +57,13 @@ export default class Logo extends Component {
 
     sequence.forEach((frame) => {
       gsap.set(frame, { display: "none" });
+      frame.classList.remove("visible");
     });
 
-    const lastFrame = sequence[index || sequence.length - 1];
+    const frameIndex = index !== null ? index : sequence.length - 1;
+    const lastFrame = sequence[frameIndex];
     gsap.set(lastFrame, { display: "block" });
+    lastFrame.classList.add("visible");
   }
 
   animateSequence(sequence, duration = 0.25) {
@@ -102,36 +110,58 @@ export default class Logo extends Component {
   onHover() {}
 
   addEventListeners() {
-    // const handleWheel = (e) => {
-    //   const direction = e.deltaY > 0 ? 1 : -1;
-    //   this.scrollDistance += Math.abs(e.deltaY);
-
-    //   if (this.scrollDistance >= this.scrollThreshold) {
-    //     this.scrollDistance = 0;
-    //     if (direction === -1) {
-    //       this.currentFrameIndex =
-    //         (this.currentFrameIndex - 1 + this.introSequence.length) %
-    //         this.introSequence.length;
-    //     } else {
-    //       this.currentFrameIndex =
-    //         (this.currentFrameIndex + 1) % this.introSequence.length;
-    //     }
-    //     this.showLastFrame(this.introSequence, this.currentFrameIndex);
-    //   }
-    // };
-
-    // window.addEventListener("wheel", handleWheel);
-
     this.addVisibilityChangeListener();
+    window.addEventListener("resize", this.updateDimensions.bind(this));
+    this.addHoverEventListener();
+    this.updateDimensions();
+  }
+
+  addHoverEventListener() {
+    console.log(this.element);
+
+    this.elements.get("eventCapture").addEventListener("mouseenter", () => {
+      this.onMouseEnter();
+    });
+
+    this.elements.get("eventCapture").removeEventListener("mouseenter", () => {
+      this.onMouseEnter();
+    });
+
+    this.elements.get("eventCapture").addEventListener("mouseleave", () => {
+      this.onMouseLeave();
+    });
+
+    this.elements.get("eventCapture").removeEventListener("mouseleave", () => {
+      this.onMouseLeave();
+    });
+  }
+
+  async onMouseEnter() {
+    console.log("onMouseEnter");
+    await this.reset(this.introSequence, 1);
+  }
+
+  async onMouseLeave() {
+    console.log("onMouseLeave");
+    await this.reset(this.introSequence, 0);
   }
 
   addVisibilityChangeListener() {
+    let lastRandomIndex = -1;
+
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
-        this.showLastFrame(this.introSequence, this.introSequence.length - 2);
+        let randomIndex;
+        do {
+          randomIndex =
+            Math.floor(Math.random() * (this.introSequence.length - 2)) + 1;
+        } while (randomIndex === lastRandomIndex);
+
+        lastRandomIndex = randomIndex;
+        this.showLastFrame(this.introSequence, randomIndex);
       } else {
         setTimeout(() => {
-          this.showLastFrame(this.introSequence, this.currentFrameIndex);
+          this.showLastFrame(this.introSequence);
         }, 950);
       }
     });
@@ -139,5 +169,7 @@ export default class Logo extends Component {
 
   removeEventListeners() {
     this.lenis.off("scroll");
+    window.removeEventListener("resize", this.updateDimensions.bind(this));
+    window.removeEventListener("load", this.updateDimensions.bind(this));
   }
 }
