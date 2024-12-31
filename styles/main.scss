@@ -15,9 +15,10 @@
 
 @import "./components/preloader";
 @import "./components/grid";
-@import "./components/transition";
 @import "./components/logo";
+@import "./components/spotify-player";
 
+@import "./layout/wrapper";
 @import "./layout/grid";
 @import "./layout/page-manager";
 @import "./layout/header";
