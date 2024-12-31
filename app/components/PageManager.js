@@ -7,8 +7,8 @@ export default class PageManager extends Component {
       id: "page-manager",
       element: "#page-manager",
       elements: {
-        pageToggle: "#page-toggle",
         logoContainer: ".logo-container",
+        pageToggle: "#page-toggle",
       },
     });
 
