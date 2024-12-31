@@ -4,7 +4,7 @@
   "description": "nonsoanetoh.com",
   "main": "app.js",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run dev\" \"npm run watch\" ",
+    "start": "concurrently --kill-others \"npm run dev\" \"npm run watch\"",
     "dev": "nodemon app.js",
     "build": "vite build",
     "watch": "nodemon -e js,pug,ts,html,scss,css --ignore dist --exec \"npm run build\"",
@@ -34,11 +34,15 @@
     "sass-loader": "^14.2.1",
     "tweakpane": "^4.0.3",
     "vite": "^4.5.3",
-    "vite-plugin-node": "^3.1.0"
+    "vite-plugin-node": "^3.1.0",
+    "vite-plugin-node-polyfills": "^0.22.0"
   },
   "dependencies": {
     "@prismicio/client": "^7.5.0",
     "@studio-freight/lenis": "^1.0.42",
+    "airtable": "^0.12.2",
+    "axios": "^1.7.9",
+    "buffer": "^6.0.3",
     "html-entities": "^2.5.2",
     "i18n": "^0.15.1",
     "include-media": "^2.0.0",
