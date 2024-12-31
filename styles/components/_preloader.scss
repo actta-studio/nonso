@@ -8,12 +8,20 @@
 
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  font-size: calc(var(--r) + 0.3em);
+  font-size: calc(var(--r) * 2.4);
   align-items: center;
 
   overflow: hidden;
 
   z-index: z("preloader");
+
+  @include media("<=tablet") {
+    font-size: calc(var(--r) * 1.8);
+  }
+
+  @include media("<=phone") {
+    font-size: calc(var(--r) * 1.8);
+  }
 }
 
 .preloader .preloader__title {

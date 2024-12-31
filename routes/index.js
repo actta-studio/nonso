@@ -61,6 +61,9 @@ const handleDefaultRequests = async (lang) => {
       }
     });
   }
+
+  console.log("navigation - ", navigation);
+
   return { navigation, logo };
 };
 

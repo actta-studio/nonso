@@ -6,59 +6,91 @@ header.header {
   padding: var(--layout-spacing);
   visibility: hidden;
   z-index: z("navigation");
+  grid-area: header;
+
+  // display: none;
 }
 
 header .indicator {
   height: 0.75em;
-  // width: auto;
 }
 
-header .desktop {
+header {
   display: grid;
-  grid-template-areas: "title title . tagline tagline . language-toggle navigation navigation navigation navigation navigation";
+  grid-template-areas: "info-group info-group info-group info-group info-group . . navigation navigation navigation navigation navigation";
   grid-template-columns: repeat(12, 1fr);
+  gap: calc(var(--r) * 1);
+  font-size: calc(var(--r) * 2.4);
 
-  font-size: calc(var(--r) + 0.45em);
+  @include media("<=tablet") {
+    grid-template-areas: "info-group info-group info-group info-group . . navigation navigation navigation navigation navigation navigation";
+    font-size: calc(var(--r) * 1.8);
+  }
+
+  @include media("<=phone") {
+    grid-template-areas: "info-group info-group info-group info-group info-group info-group info-group info-group info-group info-group info-group info-group";
+    font-size: calc(var(--r) * 1.8);
+  }
 }
 
-header .desktop .title {
+header .info-group {
+  grid-area: info-group;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  @include media("<=tablet") {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: initial;
+  }
+
+  @include media("<=phone") {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+header .info-group .title {
   grid-area: title;
 }
 
-header .desktop .tagline {
+header .info-group .tagline {
   grid-area: tagline;
+  color: #808080;
+  justify-self: end;
 }
 
-// header .desktop .language-toggle {
-//   grid-area: language-toggle;
-//   justify-content: end;
-//   text-transform: capitalize;
-// }
-
-header .desktop .navigation__links {
+header .navigation__links {
   grid-area: navigation;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  gap: calc(2.8 * var(--r));
+  gap: calc(2 * var(--r));
+
+  @include media("<=tablet") {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  @include media("<=phone") {
+    display: none;
+  }
 }
 
-header .desktop .navigation__link {
+header .navigation__link,
+header .navigation__cta {
   position: relative;
   display: flex;
   align-items: center;
   gap: calc(0.3 * var(--r));
 }
 
-header .desktop .navigation__link:last-child {
-  margin-left: auto;
-  text-align: right;
-}
-
-header .desktop .navigation__link svg {
-  visibility: hidden;
-}
-
-header .desktop .navigation__link.active svg {
-  visibility: visible;
+header .navigation__link:last-child,
+header .navigation__cta:last-child {
+  @include media(">tablet") {
+    margin-left: auto;
+    text-align: right;
+  }
 }
