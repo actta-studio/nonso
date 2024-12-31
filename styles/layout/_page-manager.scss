@@ -1,6 +1,19 @@
 #page-manager {
+  --spacing: 0;
   position: relative;
-  width: 100%;
+  height: calc(100dvh - (var(--r) * var(--spacing)));
+  background-color: #d9d9d9;
   z-index: z("page-manager");
-  visibility: hidden;
+  grid-area: page-manager;
+
+  display: none;
+
+  @include media("<=phone") {
+    --spacing: 16.2;
+    align-self: end;
+  }
+}
+
+#page-manager #content {
+  width: 100%;
 }
