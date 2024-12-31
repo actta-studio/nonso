@@ -1,0 +1,17 @@
+if navigation
+	#spotify-player.hidden
+		.wrapper
+			.deck
+				.cover-art
+					img(src="no-song.png" alt="No song playing")
+				.vinyl
+					img(src=navigation.data.idle_spotify_player.url data-idle=navigation.data.idle_spotify_player.url data-active=navigation.data.active_spotify_player.url)
+				.title
+					.marquee
+						.marquee__inner(aria-hidden="true")
+							.marquee__part(data-text="No track playing... it feels a little lonely.") No track playing... it feels a little lonely.
+							.marquee__part(data-text="No track playing... it feels a little lonely.") No track playing... it feels a little lonely.
+							.marquee__part(data-text="No track playing... it feels a little lonely.") No track playing... it feels a little lonely.
+							.marquee__part(data-text="No track playing... it feels a little lonely.") No track playing... it feels a little lonely.
+							.marquee__part(data-text="No track playing... it feels a little lonely.") No track playing... it feels a little lonely.
+							.marquee__part(data-text="No track playing... it feels a little lonely.") No track playing... it feels a little lonely.
