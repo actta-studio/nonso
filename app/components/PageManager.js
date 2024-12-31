@@ -2,69 +2,92 @@ import Component from "../classes/Component";
 import gsap from "gsap";
 
 export default class PageManager extends Component {
-  constructor() {
+  constructor({ currentTemplate }) {
     super({
+      id: "page-manager",
       element: "#page-manager",
       elements: {
-        modalContainer: "#page-manager .modal-container",
+        pageToggle: "#page-toggle",
+        logoContainer: ".logo-container",
       },
     });
 
+    this.currentTemplate = currentTemplate;
+
     this.addEventListeners();
+    this.init();
+  }
+
+  init() {
+    if (this.currentTemplate === "home" || this.currentTemplate === "404") {
+      this.setToggleState("hidden");
+    } else {
+      this.setToggleState("open");
+    }
+  }
+
+  setToggleState(state) {
+    const pageToggle = this.elements.get("pageToggle");
+
+    if (!pageToggle) {
+      console.error("pageToggle element not found");
+      return;
+    }
+
+    switch (state) {
+      case "open":
+        if (!pageToggle.classList.contains("open")) {
+          pageToggle.classList.remove("hidden");
+          pageToggle.classList.add("open");
+        }
+        break;
+      case "close":
+        if (!pageToggle.classList.contains("hidden")) {
+          pageToggle.classList.remove("open");
+          pageToggle.classList.add("hidden");
+        }
+        break;
+      case "hidden":
+        if (!pageToggle.classList.contains("hidden")) {
+          pageToggle.classList.remove("open", "hidden");
+          pageToggle.classList.add("hidden");
+        }
+        break;
+      default:
+        console.warn(`Unknown state: ${state}`);
+        break;
+    }
   }
 
   onRouteChange({ pageType, url }) {
-    // if (url === window.location.href) return;
-
-    // considerations:
-    // if path is the same as the current path and page type is modal - close modal (toggle)
-    // if path is different from the current path and page type is modal - close modal (toggle)
-    console.log("page manager route change");
-    console.log(pageType);
-
-    console.log(
-      "this.elements.get('modalContainer') - ",
-      this.elements.get("modalContainer")
-    );
-
-    const modalContainer = this.elements.get("modalContainer");
-    const isModalOpen = modalContainer.classList.contains("open");
-
-    if (pageType === "modal") {
-      if (isModalOpen) {
-        // Close modal
-        gsap.to(modalContainer, {
-          duration: 0.5,
-          scaleY: 0,
-          onComplete: () => {
-            modalContainer.classList.remove("open");
-          },
-        });
-      } else {
-        // Open modal
-        gsap.to(modalContainer, {
-          duration: 0.5,
-          scaleY: 1,
-          onStart: () => {
-            modalContainer.classList.add("open");
-          },
-        });
-      }
-    } else {
-      if (isModalOpen) {
-        gsap.to(modalContainer, {
-          duration: 0.5,
-          scaleY: 0,
-          onComplete: () => {
-            modalContainer.classList.remove("open");
-          },
-        });
-      }
-    }
+    if (url === window.location.href) return;
   }
 
   addEventListeners() {
     console.log("page manager events added");
+    console.log(this.elements);
+
+    this.elements.get("pageToggle").addEventListener("click", () => {
+      this.handlePageToggle();
+    });
+  }
+
+  handlePageToggle() {
+    const pageToggle = this.elements.get("pageToggle");
+
+    if (pageToggle.classList.contains("open")) {
+      this.setToggleState("close");
+      gsap.to(this.elements.get("logoContainer"), {
+        "--columns": 12,
+        ease: "steps(1)",
+      });
+    } else {
+      this.setToggleState("open");
+      gsap.to(this.elements.get("logoContainer"), {
+        "--columns": 5,
+        ease: "steps(1)",
+      });
+    }
   }
 
   removeEventListeners() {}
