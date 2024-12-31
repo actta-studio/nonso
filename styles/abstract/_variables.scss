@@ -6,7 +6,7 @@
 @include media("<=tablet") {
   :root {
     --r: calc((100vw / 768) * 10);
-    --layout-spacing: calc(2 * var(--r));
+    --layout-spacing: calc(1 * var(--r));
   }
 }
 
@@ -23,12 +23,14 @@ $color-highlight: #0972db;
 
 $z-indexes: (
   "dev",
-  "logo",
-  "transition",
   "preloader",
-  "navigation",
   "page-manager",
+  "navigation--mobile",
+  "page-manager--mobile",
+  "navigation",
+  "interaction",
   "footer",
   "content",
+  "logo",
   "unsupported"
 );
