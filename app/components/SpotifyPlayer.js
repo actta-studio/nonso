@@ -15,12 +15,6 @@ export default class SpotifyPlayer extends Component {
       },
     });
 
-    console.log("VITE_AIRTABLE_PAT:", import.meta.env.VITE_AIRTABLE_PAT);
-    console.log(
-      "VITE_AIRTABLE_BASE_ID:",
-      import.meta.env.VITE_AIRTABLE_BASE_ID
-    );
-
     Airtable.configure({
       endpointUrl: "https://api.airtable.com",
       apiKey: import.meta.env.VITE_AIRTABLE_PAT,
@@ -85,9 +79,6 @@ export default class SpotifyPlayer extends Component {
           console.error(err);
           return;
         }
-        records.forEach(function (record) {
-          console.log(record.get("token"));
-        });
       }
     );
   }
@@ -114,7 +105,6 @@ export default class SpotifyPlayer extends Component {
       const playing = await this.getNowPlaying();
       this.setNowPlaying(playing);
     } catch (error) {
-      console.error("Error in init:", error);
       if (error.response) {
         if (error.response.data.error.message === "The access token expired") {
           await this.updateToken();

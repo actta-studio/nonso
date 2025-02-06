@@ -6,6 +6,8 @@
   @include media("<=phone") {
     display: none;
   }
+
+  z-index: z("page-content");
 }
 
 #spotify-player:hover {

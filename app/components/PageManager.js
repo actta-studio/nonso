@@ -2,92 +2,63 @@ import Component from "../classes/Component";
 import gsap from "gsap";
 
 export default class PageManager extends Component {
-  constructor({ currentTemplate }) {
+  constructor({ currentTemplate, sourcePreloader }) {
     super({
       id: "page-manager",
       element: "#page-manager",
       elements: {
+        overlay: "#page-manager #overlay",
         logoContainer: ".logo-container",
-        pageToggle: "#page-toggle",
+        toggle: "#page-toggle",
       },
     });
 
     this.currentTemplate = currentTemplate;
 
     this.addEventListeners();
-    this.init();
+    this.init(this.currentTemplate);
   }
 
-  init() {
-    if (this.currentTemplate === "home" || this.currentTemplate === "404") {
-      this.setToggleState("hidden");
-    } else {
-      this.setToggleState("open");
+  init(template) {
+    if (template === "404") {
+      this.elements.get("toggle").classList.add("hidden");
     }
   }
 
-  setToggleState(state) {
-    const pageToggle = this.elements.get("pageToggle");
-
-    if (!pageToggle) {
-      console.error("pageToggle element not found");
-      return;
-    }
-
-    switch (state) {
-      case "open":
-        if (!pageToggle.classList.contains("open")) {
-          pageToggle.classList.remove("hidden");
-          pageToggle.classList.add("open");
-        }
-        break;
-      case "close":
-        if (!pageToggle.classList.contains("hidden")) {
-          pageToggle.classList.remove("open");
-          pageToggle.classList.add("hidden");
-        }
-        break;
-      case "hidden":
-        if (!pageToggle.classList.contains("hidden")) {
-          pageToggle.classList.remove("open", "hidden");
-          pageToggle.classList.add("hidden");
-        }
-        break;
-      default:
-        console.warn(`Unknown state: ${state}`);
-        break;
-    }
+  onChange(template) {
+    this.init(template);
+    this.setPageStateOpen();
   }
 
-  onRouteChange({ pageType, url }) {
+  setPageStateOpen() {
+    this.elements.get("overlay").classList.remove("closed");
+    this.elements.get("logoContainer").classList.add("closed");
+  }
+
+  setPageStateClosed() {
+    this.elements.get("overlay").classList.add("closed");
+    this.elements.get("logoContainer").classList.remove("closed");
+  }
+
+  toggleOverlay() {
+    this.elements.get("overlay").classList.toggle("closed");
+    this.elements.get("logoContainer").classList.toggle("closed");
+  }
+
+  onRouteChange({ url }) {
     if (url === window.location.href) return;
   }
 
   addEventListeners() {
     console.log("page manager events added");
     console.log(this.elements);
-
-    this.elements.get("pageToggle").addEventListener("click", () => {
-      this.handlePageToggle();
+    this.elements.get("toggle").addEventListener("click", () => {
+      this.toggleOverlay();
     });
-  }
 
-  handlePageToggle() {
-    const pageToggle = this.elements.get("pageToggle");
-
-    if (pageToggle.classList.contains("open")) {
-      this.setToggleState("close");
-      gsap.to(this.elements.get("logoContainer"), {
-        "--columns": 12,
-        ease: "steps(1)",
-      });
-    } else {
-      this.setToggleState("open");
-      gsap.to(this.elements.get("logoContainer"), {
-        "--columns": 5,
-        ease: "steps(1)",
-      });
-    }
+    window.addEventListener("resize", () => {
+      this.setPageStateClosed();
+    });
   }
 
   removeEventListeners() {}

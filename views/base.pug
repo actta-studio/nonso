@@ -28,42 +28,41 @@ html(lang=`en` class=`${isDesktop ? 'desktop' : isTablet ? 'tablet' : 'phone'}`)
 		
 		link(rel="manifest" href="site.webmanifest")
 
-		link(rel="stylesheet" href="main.css")
+		link(rel='preconnect' href='https://fonts.googleapis.com')
+		link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+		link(href='https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap' rel='stylesheet')
 
+
+		link(rel="stylesheet" href="main.css")
 
 		//- meta(property="og:type" content="website")
 		//- meta(property="og:title" content=meta.data.title ? meta.data.title : '')
 		//- meta(property="og:description" content=meta.data.description ? meta.data.description : '')
 		//- meta(property="og:image" content=meta.data.image ? meta.data.image.url : '')
 
-		
-
-
-
-
 		//- meta(name="twitter:card" content="summary_large_image")
 		//- meta(name="twitter:title" content=meta.data.title ? meta.data.title : '')
 		//- meta(name="twitter:description" content=meta.data.description ? meta.data.description : '')
 		//- meta(name="twitter:image" content=meta.data.image ? meta.data.image.url : '')
 
-
 			
 	body
 		include ./partials/preloader
-		.logo-container
-			include ./partials/logo
-			button#page-toggle.hidden
-				svg(viewbox='0 0 38 38' fill='none' xmlns='http://www.w3.org/2000/svg')
-					path(d='M3 16.5C1.61929 16.5 0.5 17.6193 0.5 19C0.5 20.3807 1.61929 21.5 3 21.5L3 16.5ZM36.7678 20.7678C37.7441 19.7915 37.7441 18.2085 36.7678 17.2322L20.8579 1.32233C19.8816 0.34602 18.2986 0.34602 17.3223 1.32233C16.346 2.29864 16.346 3.88155 17.3223 4.85786L31.4645 19L17.3223 33.1421C16.346 34.1184 16.346 35.7014 17.3223 36.6777C18.2986 37.654 19.8816 37.654 20.8579 36.6777L36.7678 20.7678ZM3 21.5L35 21.5V16.5L3 16.5L3 21.5Z' fill='black')
 		include ./partials/spotify-player
-		
-		.design-grid 
-
+		include ./partials/reps
+		#cursor
 		#wrapper
 			include ./partials/header
 			#page-manager
-				main#content(data-template=template data-type=type)
-					block content
+				.logo-container
+					include ./partials/logo
+				#overlay.closed
+					button#page-toggle()
+						svg(viewbox='0 0 38 38' fill='none' xmlns='http://www.w3.org/2000/svg')
+							path(d='M3 16.5C1.61929 16.5 0.5 17.6193 0.5 19C0.5 20.3807 1.61929 21.5 3 21.5L3 16.5ZM36.7678 20.7678C37.7441 19.7915 37.7441 18.2085 36.7678 17.2322L20.8579 1.32233C19.8816 0.34602 18.2986 0.34602 17.3223 1.32233C16.346 2.29864 16.346 3.88155 17.3223 4.85786L31.4645 19L17.3223 33.1421C16.346 34.1184 16.346 35.7014 17.3223 36.6777C18.2986 37.654 19.8816 37.654 20.8579 36.6777L36.7678 20.7678ZM3 21.5L35 21.5V16.5L3 16.5L3 21.5Z' fill='black')
+					#content(data-template=template)
+						include ./partials/page-links
+						block content
 
 		
 		script(src="main.js")

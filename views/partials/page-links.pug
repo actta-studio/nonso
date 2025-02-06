@@ -1,0 +1,5 @@
+header(class="in-page-navigation")
+	each link, index in navigation.data.links
+		a(class="navigation__link" href=Link(link.page))
+			span=link.label
+	button(class="navigation__cta") Connect

@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@prismicio/client": "^7.5.0",
+    "@prismicio/helpers": "^2.3.9",
     "@studio-freight/lenis": "^1.0.42",
     "airtable": "^0.12.2",
     "axios": "^1.7.9",
@@ -46,6 +47,7 @@
     "html-entities": "^2.5.2",
     "i18n": "^0.15.1",
     "include-media": "^2.0.0",
+    "mongoose": "^8.9.6",
     "node-fetch": "^3.3.2",
     "serve-favicon": "^2.5.0",
     "ua-parser-js": "^1.0.38"

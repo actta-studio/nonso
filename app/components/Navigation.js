@@ -6,7 +6,6 @@ export default class Navigation extends Component {
     super({
       element: "header.header",
       elements: {
-        pageManager: "#page-manager",
         navigation: "header.header",
       },
     });
@@ -18,14 +17,11 @@ export default class Navigation extends Component {
 
   animateIn() {
     // return;
-    this.timeline.from(
-      [this.elements.get("navigation"), this.elements.get("pageManager")],
-      {
-        autoAlpha: 0,
-        duration: 1,
-        ease: "power3.out",
-      }
-    );
+    this.timeline.from([this.elements.get("navigation")], {
+      autoAlpha: 0,
+      duration: 1,
+      ease: "power3.out",
+    });
   }
 
   addEventListeners() {

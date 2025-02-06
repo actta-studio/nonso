@@ -1,12 +1,16 @@
 require("dotenv").config();
 
 const asyncHandler = require("../utils/async-handler");
-const { PrismicError } = require("@prismicio/client");
-const prismic = require("@prismicio/client");
 const { client } = require("../config/index");
 const { siteConfig } = require("../config/index");
+const prismicHelper = require("@prismicio/helpers");
+
+const connectDB = require("../config/mongoose");
+const RepCounter = require("../models/RepCounter");
 
 const router = require("express").Router();
+
+connectDB();
 
 const handleDefaultRequests = async (lang) => {
   let navigation = null;
@@ -61,8 +65,6 @@ const handleDefaultRequests = async (lang) => {
       }
     });
   }
-
-  console.log("navigation - ", navigation);
 
   return { navigation, logo };
 };
@@ -119,8 +121,6 @@ router.get(
       });
     }
 
-    console.log("document - ", document);
-
     res.render(`pages/${uid}`, { document, ...defaults });
   })
 );
@@ -158,7 +158,11 @@ router.get(
 
     document = siteConfig.parseDocumentFields(document, ["intro_text"]);
 
-    console.log("document - ", document);
+    console.log(
+      "document - ",
+      document.data.body,
+      prismicHelper.asHTML(document.data.body[0].primary.text_content)
+    );
 
     res.render("pages/home", { document, ...defaults });
   })

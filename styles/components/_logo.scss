@@ -1,75 +1,29 @@
 .logo-container {
-  --columns: 12;
-  --total-columns: 12;
-  --gap: calc(var(--r) * 2);
+  --width: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100dvh;
+  width: var(--width);
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(
-    (100vw - (var(--total-columns) - 1) * var(--gap)) / var(--total-columns) *
-      var(--columns) + (var(--columns) - 1) * var(--gap)
-  );
-}
-
-.logo-container #page-toggle {
-  --size: 7.4;
-  position: absolute;
-  top: 50%;
-  right: var(--gap);
-  transform: translateY(-50%);
-  z-index: z("page-manager");
-  cursor: pointer;
-  width: calc(var(--size) * var(--r));
-  aspect-ratio: 1 / 1;
-  background-color: #d9d9d9;
-  border-radius: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-}
-
-.logo-container #page-toggle.hidden {
-  visibility: hidden;
-}
-
-.logo-container #page-toggle.open {
-  visibility: visible;
-
-  svg {
-    transform: rotate(180deg);
-    transform-origin: center;
-  }
-}
-
-.logo-container #page-toggle.closed {
-  visibility: visible;
-
-  svg {
-    transform: rotate(0deg);
-    transform-origin: center;
-  }
+  z-index: z("logo");
 }
 
 #logo {
   --width: 0px;
   --height: 0px;
   position: relative;
-  z-index: z("logo");
 }
 
 #logo .event-capture {
   --e-width: calc(var(--width) * 0.5675675676);
   --e-height: calc(var(--height) * 0.3616428259);
-  position: relative;
-  top: calc(var(--e-height) * 0.3184713376 * -1);
-  left: calc(var(--e-width) * 0.1369047619 * 1);
+  position: absolute;
+  top: calc(50% + (var(--e-height) * 0.3184713376 * -1));
+  left: calc(50% + (var(--e-width) * 0.1369047619 * 1));
+  transform: translate(-50%, -50%);
   width: var(--e-width);
   height: var(--e-height);
   z-index: z("interaction");

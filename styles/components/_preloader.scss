@@ -26,6 +26,10 @@
 
 .preloader .preloader__title {
   align-content: center;
+
+  @include media("<=tablet") {
+    display: none;
+  }
 }
 
 .preloader .preloader__progress {

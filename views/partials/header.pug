@@ -4,7 +4,7 @@ header(class="header" id="header")
 		.tagline=navigation.data.tagline
 	nav.navigation__links
 		each link, index in navigation.data.links
-				a(class="navigation__link" href=Link(link.page) data-shortcut=(index + 1))
-					span=link.label
+			a(class="navigation__link" href=Link(link.page))
+			span=link.label
 		button(class="navigation__cta") Connect
 

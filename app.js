@@ -10,6 +10,7 @@ const methodOverride = require("method-override");
 const logger = require("morgan");
 const router = require("./routes/index");
 const favicon = require("serve-favicon");
+const apiRoutes = require("./routes/api");
 
 const prismic = require("@prismicio/client");
 
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
   res.locals.isPhone = ua.device.type === "mobile";
   res.locals.Link = siteConfig.linkResolver;
   res.locals.LinkReplace = siteConfig.linkReplace;
+  res.locals.asHTML = siteConfig.asHTML;
 
   res.locals.Prismic = prismic;
   next();
@@ -49,6 +51,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/", router);
+app.use("/api", apiRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

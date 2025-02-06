@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const fetch = import("node-fetch");
 const prismic = require("@prismicio/client");
+const prismicHelper = require("@prismicio/helpers");
 
 const endpoint = process.env.PRISMIC_ENDPOINT;
 const accessToken = process.env.PRISMIC_ACCESS_TOKEN;
@@ -61,6 +62,10 @@ module.exports.client = prismic.createClient(endpoint, {
   linkResolver,
 });
 
+const asHTML = (element) => {
+  return prismicHelper.asHTML(element);
+};
+
 module.exports.siteConfig = {
   defaultLanguage: {
     full: "en-ca",
@@ -76,6 +81,7 @@ module.exports.siteConfig = {
       short: "fr",
     },
   },
+  asHTML,
   linkResolver,
   parseDocumentFields,
   linkReplace,

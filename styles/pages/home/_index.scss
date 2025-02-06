@@ -1,14 +1,2 @@
 .page--home {
-  display: grid;
-  grid-template-areas: ". . . content content content . . . . . .";
-  grid-template-columns: repeat(12, 1fr);
-}
-
-.page--home .text-content {
-  grid-area: content;
-  font-size: calc(var(--r) + 0.45em);
-
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--r) * 1.5);
 }

@@ -9,7 +9,6 @@ export default class Logo extends Component {
         eventCapture: "#logo .event-capture",
         baseFrame: "[data-label='base-frame']",
         routineFrames: "[data-label^='routine-frame']",
-        interactionFrames: "[data-label^='interaction-frame']",
         notFoundFrames: "[data-label='not-found-frame']",
       },
     });
@@ -19,6 +18,7 @@ export default class Logo extends Component {
     this.introSequence = [];
     this.buildSequences();
     this.timeline = gsap.timeline();
+    this.isCollapsed = false;
   }
 
   create() {
@@ -41,7 +41,6 @@ export default class Logo extends Component {
       this.elements.get("baseFrame"),
     ];
     this.baseSequence = [this.elements.get("baseFrame")];
-    this.interactionSequence = [...this.elements.get("interactionFrames")];
     this.notFoundSequence = [
       ...this.elements.get("routineFrames"),
       this.elements.get("notFoundFrames"),
@@ -66,54 +65,85 @@ export default class Logo extends Component {
     lastFrame.classList.add("visible");
   }
 
-  animateSequence(sequence, duration = 0.25) {
+  animateSequence(sequence, duration = 0.25, skip = []) {
     return new Promise((resolve) => {
       this.timeline.clear();
 
       sequence.forEach((frame, index) => {
-        this.timeline.set(frame, {
-          display: "block",
-        });
+        if (!skip.includes(index)) {
+          this.timeline.set(frame, {
+            display: "block",
+          });
 
-        this.timeline.set(
-          frame,
-          {
-            display: "none",
-          },
-          `+=${duration}`
-        );
+          this.timeline.set(
+            frame,
+            {
+              display: "none",
+            },
+            `+=${duration}`
+          );
+        } else {
+          gsap.set(frame, { display: "none" });
+        }
       });
 
       this.timeline.call(resolve, null, null, `+=${duration}`);
     });
   }
 
-  async animate(sequence) {
+  async animate(sequence, skip = []) {
     switch (sequence) {
       case "intro":
-        await this.animateSequence(this.introSequence);
+        await this.animateSequence(this.introSequence, 0.25, skip);
         await this.reset(this.introSequence);
         break;
-      case "interaction":
-        await this.animateSequence(this.interactionSequence);
-        break;
       case "not-found":
-        await this.animateSequence(this.notFoundSequence);
+        await this.animateSequence(this.notFoundSequence, 0.25, skip);
         await this.reset(this.notFoundSequence);
         break;
       default:
-        await this.animateSequence(this.introSequence);
+        await this.animateSequence(this.introSequence, 0.25, skip);
         break;
     }
   }
 
-  onHover() {}
+  async onExpanded() {
+    this.isCollapsed = false;
+    await this.reset(this.introSequence, 0);
+  }
+
+  async onCollapsed() {
+    this.isCollapsed = true;
+    await this.reset(this.introSequence, 2);
+  }
 
   addEventListeners() {
     this.addVisibilityChangeListener();
     window.addEventListener("resize", this.updateDimensions.bind(this));
     this.addHoverEventListener();
     this.updateDimensions();
+
+    const logoContainer = document.querySelector(".logo-container");
+    const observer = new MutationObserver(() => {
+      if (window.innerWidth > 430) {
+        if (logoContainer.classList.contains("closed")) {
+          this.onCollapsed();
+        } else {
+          this.onExpanded();
+        }
+      }
+    });
+
+    observer.observe(logoContainer, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth <= 430) {
+        this.reset(this.introSequence, 0);
+      }
+    });
   }
 
   addHoverEventListener() {
@@ -137,12 +167,12 @@ export default class Logo extends Component {
   }
 
   async onMouseEnter() {
-    console.log("onMouseEnter");
+    if (this.isCollapsed) return;
     await this.reset(this.introSequence, 1);
   }
 
   async onMouseLeave() {
-    console.log("onMouseLeave");
+    if (this.isCollapsed) return;
     await this.reset(this.introSequence, 0);
   }
 

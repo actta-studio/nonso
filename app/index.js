@@ -10,19 +10,17 @@ import Navigation from "@/components/navigation";
 import Preloader from "@/components/preloader";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import Logo from "@/components/logo";
+import Cursor from "@/components/Cursor";
 
 // pages
 import Home from "@/pages/home";
-import Information from "@/pages/information";
 import Work from "@/pages/work";
 import Blog from "@/pages/blog";
 import NotFound from "@/pages/notFound";
 import PageManager from "./components/PageManager";
-import { template } from "lodash";
 
 class App {
   constructor() {
-    console.log("App has been initialized!");
     this.createContent();
 
     this.initLenis();
@@ -30,6 +28,7 @@ class App {
     this.createPages();
     this.initNavigation();
     this.initSpotifyPlayer();
+    this.addCustomCursor();
 
     this.addLinkListeners();
     this.addEventListeners();
@@ -39,25 +38,24 @@ class App {
   createPages() {
     this.pages = new Map();
 
-    console.log("this.pageManager - ", this.pageManager);
-
     this.pageConfig = {
       lenis: this.lenis,
       logo: this.logo,
     };
 
     this.pages.set("home", new Home(this.pageConfig));
-    this.pages.set("information", new Information(this.pageConfig));
     this.pages.set("blog", new Blog(this.pageConfig));
     this.pages.set("work", new Work(this.pageConfig));
     this.pages.set("404", new NotFound(this.pageConfig));
 
     this.page = this.pages.get(this.template);
 
-    console.log("this.page - ", this.page);
     this.page.create({ sourcePreloader: true });
 
-    this.pageManager = new PageManager({ currentTemplate: this.template });
+    this.pageManager = new PageManager({
+      currentTemplate: this.template,
+      sourcePreloader: true,
+    });
   }
 
   createContent() {
@@ -93,6 +91,7 @@ class App {
     this.logo.addEventListeners();
     this.page.show();
     this.navigation.animateIn();
+    // this.pageManager.setPageState("open");
   }
 
   initLenis() {
@@ -120,6 +119,10 @@ class App {
   raf(time) {
     this.lenis.raf(time);
     requestAnimationFrame(this.raf);
+  }
+
+  addCustomCursor() {
+    this.cursor = new Cursor();
   }
 
   updateActiveLinks() {
@@ -157,6 +160,10 @@ class App {
   }
 
   async onChange({ url, push = true }) {
+    if (url === window.location.href) {
+      return;
+    }
+
     this.page.hide();
 
     const request = await window.fetch(url);
@@ -170,8 +177,6 @@ class App {
     div.innerHTML = html;
     const divContent = div.querySelector("#content");
     this.template = divContent.getAttribute("data-template");
-
-    this.pageType = divContent.getAttribute("data-type");
 
     this.pageManager.onRouteChange({ pageType: this.pageType, url });
 
@@ -215,6 +220,7 @@ class App {
     // });
 
     await this.spotifyPlayer.onChange();
+    this.pageManager.onChange(this.template);
 
     this.page.show();
     this.addLinkListeners();
@@ -224,85 +230,8 @@ class App {
     await this.onChange({ url: window.location.pathname, push: false });
   }
 
-  displayShortcuts() {
-    const shortcuts = document.querySelectorAll(
-      "[data-shortcut] ~ .superscript"
-    );
-
-    gsap.to(shortcuts, {
-      duration: 0.3,
-      autoAlpha: 1,
-    });
-  }
-
-  hideShortcuts() {
-    const shortcuts = document.querySelectorAll(
-      "[data-shortcut] ~ .superscript"
-    );
-
-    gsap.to(shortcuts, {
-      duration: 0.3,
-      autoAlpha: 0,
-    });
-  }
-
   addEventListeners() {
     window.addEventListener("popstate", this.onPopState.bind(this));
-
-    document.addEventListener("keydown", (event) => {
-      const isMac = navigator.userAgent.toUpperCase().indexOf("MAC") >= 0;
-
-      if (isMac && event.ctrlKey && event.altKey && !event.shiftKey) {
-        this.displayShortcuts();
-      }
-
-      if (!isMac && event.altKey && event.shiftKey && !event.ctrlKey) {
-        this.displayShortcuts();
-      }
-    });
-
-    document.addEventListener("keyup", (event) => {
-      const isMac = navigator.userAgent.toUpperCase().indexOf("MAC") >= 0;
-
-      if (isMac && !event.ctrlKey && !event.altKey) {
-        this.hideShortcuts();
-      }
-
-      if (!isMac && !event.altKey && !event.shiftKey) {
-        this.hideShortcuts();
-      }
-    });
-
-    this.addShortcutListeners();
-  }
-
-  addShortcutListeners() {
-    const shortcutElements = document.querySelectorAll("[data-shortcut]");
-
-    shortcutElements.forEach((element) => {
-      const shortcutKey = element.getAttribute("data-shortcut").toLowerCase();
-
-      document.addEventListener("keydown", (event) => {
-        const isMac = navigator.userAgent.toUpperCase().indexOf("MAC") >= 0;
-        const key = event.code.replace("Digit", "").toLowerCase();
-
-        if (
-          (isMac &&
-            event.ctrlKey &&
-            event.altKey &&
-            !event.shiftKey &&
-            key === shortcutKey) ||
-          (!isMac &&
-            event.altKey &&
-            event.shiftKey &&
-            !event.ctrlKey &&
-            key === shortcutKey)
-        ) {
-          element.click();
-        } else {
-        }
-      });
-    });
   }
 
   removeEventListeners() {

@@ -31,7 +31,7 @@ export default class Preloader extends Component {
       if (this.template === "404") {
         await this.logo.animate("not-found");
       } else {
-        await this.logo.animate("intro");
+        await this.logo.animate("intro", [2]);
       }
 
       this.animateOut = gsap.timeline({});

@@ -5,3 +5,10 @@ block variables
 
 block content
 	div(class="page page--work")
+		.page__content
+			h1.page__title=document.data.title
+			each slice in document.data.body
+				if slice.slice_type === "body_content"
+					!=asHTML(slice.primary.text_content)
+				else
+					| not a slice

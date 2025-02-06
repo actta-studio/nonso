@@ -1,20 +1,2 @@
 .page--blog {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  align-items: unset;
-  gap: calc(var(--r) * 2);
-  background-color: $color-white;
-  color: $color-grey;
-}
-
-.page--blog .intro {
-  grid-column: span 3;
-  font-size: calc(var(--r) + 0.3em);
-  line-height: 1.2;
-  font-weight: 400;
-}
-
-.page--blog .intro h1,
-.page--blog .intro p {
-  display: inline-block;
 }
